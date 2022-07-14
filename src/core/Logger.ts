@@ -1,7 +1,7 @@
-import { fgCyan, fgGray, fgGreen, fgRed, fgYellow, formatOnlyTime, reset } from ".";
+import { fgCyan, fgGray, fgGreen, fgRed, fgYellow, timeFormat, reset } from ".";
 
 export class Logger {
-    private time = () => `${fgGray}${formatOnlyTime(new Date())}${reset}`
+    private time = () => `${fgGray}${timeFormat(new Date())}${reset}`
 
     info = (msg: string) => console.log(`${(this.time())} ${fgCyan}[I]${reset} ${msg}`);
     debug = (msg: string) => console.log(`${(this.time())} ${fgGreen}[D]${reset} ${msg}`);
