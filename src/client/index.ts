@@ -5,6 +5,7 @@ import { path_config, path_db, path_env } from "../core/Constants";
 import { Logger } from "../core/Logger";
 import { Config } from "../interfaces";
 import ConfigJson from '../config.json';
+import { Database } from "../db/Database";
 
 require('dotenv').config()
 
@@ -37,6 +38,7 @@ class Bot extends Client {
 
     config: Config = ConfigJson;
     logger: Logger = new Logger();
+    db: Database = new Database();
 
 
 
@@ -98,6 +100,7 @@ class Bot extends Client {
         await eventHandler(this);
         await commandHandler(this);
 
+        this.db.openDB(this);
 
         this.login(process.env.TOKEN);
     }
