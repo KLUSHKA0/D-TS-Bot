@@ -24,6 +24,6 @@ export function voiceTimeFormat(sec: number): string {
 
 
 
-export function eventHandler(): void {
 
-}
+
+

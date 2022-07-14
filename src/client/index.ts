@@ -1,7 +1,10 @@
-import { Client, Intents } from "discord.js";
+import { Client, Collection, Intents } from "discord.js";
 import { access, constants, writeFile } from 'fs';
+import { Event, eventHandler } from "../core";
 import { path_config, path_db, path_env } from "../core/Constants";
 import { Logger } from "../core/Logger";
+import { Config } from "../interfaces";
+import ConfigJson from '../config.json';
 
 require('dotenv').config()
 
@@ -25,8 +28,11 @@ class Bot extends Client {
         });
     }
 
+    events: Collection<string, Event> = new Collection();
 
+    config: Config = ConfigJson;
     logger: Logger = new Logger();
+
 
 
     public init(): void {
@@ -54,9 +60,9 @@ class Bot extends Client {
                     } else {
                         this.logger.debug("File `config.json` created");
                     }
-                })
+                });
             }
-        })
+        });
 
         // Init db.sqlite
         access(path_db.path, constants.F_OK, (err) => {
@@ -67,10 +73,9 @@ class Bot extends Client {
                     } else {
                         this.logger.debug("File `db.sqlite` created");
                     }
-                })
+                });
             }
-        })
-
+        });
 
         this.start()
 
@@ -79,6 +84,10 @@ class Bot extends Client {
 
     private start(): void {
 
+        eventHandler(this)
+
+
+        this.login(process.env.TOKEN)
     }
 
 }
