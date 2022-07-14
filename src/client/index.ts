@@ -1,6 +1,6 @@
 import { Client, Collection, Intents } from "discord.js";
 import { access, constants, writeFile } from 'fs';
-import { Event, eventHandler } from "../core";
+import { Command, commandHandler, createGroups, Event, eventHandler, Group } from "../core";
 import { path_config, path_db, path_env } from "../core/Constants";
 import { Logger } from "../core/Logger";
 import { Config } from "../interfaces";
@@ -29,6 +29,11 @@ class Bot extends Client {
     }
 
     events: Collection<string, Event> = new Collection();
+    commands: Collection<string, Command> = new Collection();
+    aliases: Collection<string, Command> = new Collection();
+    groups: Collection<string, Group> = new Collection();
+
+
 
     config: Config = ConfigJson;
     logger: Logger = new Logger();
@@ -77,17 +82,24 @@ class Bot extends Client {
             }
         });
 
-        this.start()
+        this.start();
 
     }
 
 
-    private start(): void {
+    private async start(): Promise<void> {
 
-        eventHandler(this)
+        await createGroups(this, [
+            { name: 'member', displayName: 'Member commands' },
+            { name: 'moder', displayName: 'Moderator commands' },
+            { name: 'owner', displayName: 'Owner bot commands' }
+        ]);
+
+        await eventHandler(this);
+        await commandHandler(this);
 
 
-        this.login(process.env.TOKEN)
+        this.login(process.env.TOKEN);
     }
 
 }
