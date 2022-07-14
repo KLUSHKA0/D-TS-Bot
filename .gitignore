@@ -1,2 +1,4 @@
 .env
 node_modules/
+src/config.json
+src/db/db.sqlite
