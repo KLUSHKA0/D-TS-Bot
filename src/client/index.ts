@@ -6,7 +6,7 @@ import {Logger} from "../core/Logger";
 import {Config} from "../interfaces";
 import ConfigJson from '../config.json';
 import {Database} from "../db/Database";
-import {Cd} from "../core/Account";
+// import {Cd} from "../core/Account";
 
 require('dotenv').config()
 
@@ -37,7 +37,7 @@ class Bot extends Client {
 
 
     accounts: Collection<string, Account> = new Collection();
-    cd: Collection<string, Cd> = new Collection();
+    // cd: Collection<string, Cd> = new Collection();
     guild: Collection<string, Guild> = new Collection();
 
 
