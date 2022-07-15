@@ -20,7 +20,7 @@ export const fgYellow: string = '\x1b[33m';
 export const fgRed: string = '\x1b[31m';
 export const fgGray: string = '\x1b[90m';
 export const fgCyan: string = '\x1b[36m';
-export const fgMagneta: string = '\x1b[35m'
+export const fgMagnet: string = '\x1b[35m'
 export const fgGreen: string = "\x1b[32m";
 
 export const status = {

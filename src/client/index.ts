@@ -1,11 +1,12 @@
-import { Client, Collection, Intents } from "discord.js";
-import { access, constants, writeFile } from 'fs';
-import { Command, commandHandler, createGroups, Event, eventHandler, Group } from "../core";
-import { path_config, path_db, path_env } from "../core/Constants";
-import { Logger } from "../core/Logger";
-import { Config } from "../interfaces";
+import {Client, Collection, Intents} from "discord.js";
+import {access, constants, writeFile} from 'fs';
+import {Account, Command, commandHandler, createGroups, Event, eventHandler, Group, Guild} from "../core";
+import {path_config, path_db, path_env} from "../core/Constants";
+import {Logger} from "../core/Logger";
+import {Config} from "../interfaces";
 import ConfigJson from '../config.json';
-import { Database } from "../db/Database";
+import {Database} from "../db/Database";
+import {Cd} from "../core/Account";
 
 require('dotenv').config()
 
@@ -35,11 +36,14 @@ class Bot extends Client {
     groups: Collection<string, Group> = new Collection();
 
 
+    accounts: Collection<string, Account> = new Collection();
+    cd: Collection<string, Cd> = new Collection();
+    guild: Collection<string, Guild> = new Collection();
+
 
     config: Config = ConfigJson;
     logger: Logger = new Logger();
     db: Database = new Database();
-
 
 
     public init(): void {
@@ -92,17 +96,17 @@ class Bot extends Client {
     private async start(): Promise<void> {
 
         await createGroups(this, [
-            { name: 'member', displayName: 'Member commands' },
-            { name: 'moder', displayName: 'Moderator commands' },
-            { name: 'owner', displayName: 'Owner bot commands' }
+            {name: 'member', displayName: 'Member commands'},
+            {name: 'moder', displayName: 'Moderator commands'},
+            {name: 'owner', displayName: 'Owner bot commands'}
         ]);
 
         await eventHandler(this);
         await commandHandler(this);
 
-        this.db.openDB(this);
+        await this.db.openDB(this);
 
-        this.login(process.env.TOKEN);
+        await this.login(process.env.TOKEN);
     }
 
 }
