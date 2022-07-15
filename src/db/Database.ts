@@ -1,12 +1,13 @@
-import { DataTypes, Model, ModelStatic, Sequelize } from 'sequelize';
+import {DataTypes, Model, ModelStatic, Sequelize} from 'sequelize';
 import Bot from '../client';
+import {Account, Guild} from "../core";
 
 export class Database {
     private db: Sequelize;
 
-    public User: ModelStatic<Model<any, any>>;
-    public Guild: ModelStatic<Model<any, any>>;
-    public MuteRole: ModelStatic<Model<any, any>>;
+    private User: ModelStatic<Model<any, any>>;
+    private Guild: ModelStatic<Model<any, any>>;
+    private MuteRole: ModelStatic<Model<any, any>>;
 
     async openDB(client: Bot) {
         this.db = new Sequelize({
@@ -117,28 +118,118 @@ export class Database {
         this.MuteRole.sync();
     }
 
-    async getUser(client: Bot, userId: string, guildId: string): Promise<Model<any, any>> {
-        return await client.db.User.findOne({ where: { uid: userId, gid: guildId } });
+    //region User
+    private async getUser(userId: string, guildId: string): Promise<Model<any, any>> {
+        return await this.User.findOne({where: {uid: userId, gid: guildId}});
     }
 
-    async addUser(client: Bot, userId: string, guildId: string): Promise<void> {
-        await this.User.create({ uid: userId, gid: guildId });
+    async addUser(account: Account): Promise<void> {
+        await this.User.create({
+            uid: account.uid,
+            gid: account.gid,
+            xp: account.xp,
+            level: account.level,
+            voice: account.voice,
+            lang: account.lang
+        });
     }
 
-    async getUsers(client: Bot): Promise<Model<any, any>[]> {
+    async updateUser(account: Account): Promise<void> {
+        await this.User.update({
+                xp: account.xp,
+                level: account.level,
+                voice: account.voice,
+                lang: account.lang
+            },
+            {
+                where: {
+                    uid: account.uid,
+                    gid: account.gid
+                }
+            });
+    }
+
+    private async getUsers(): Promise<Model<any, any>[]> {
         return await this.User.findAll();
     }
 
-    async getGuildUser(client: Bot, guildId: string): Promise<Model<any, any>[]> {
-        return await this.User.findAll({ where: { gid: guildId } });
+    async loadUsers(client: Bot): Promise<void> {
+        let users = await this.getUsers();
+        users.forEach(u => {
+            let usr = u.get() as Account;
+            client.guild.get(usr.gid).addAccount(usr);
+        });
     }
 
-    async getGuild(client: Bot, guildId: string) {
-        return await this.Guild.findOne({ where: { gid: guildId } });
+    saveUsers(client: Bot): void {
+        client.guild.forEach(g => {
+            g.accounts.forEach(async u => {
+                if (!await this.getUser(u.uid, u.gid)) // TODO()
+                    await this.addUser(u);
+                else {
+                    await  this.updateUser(u);
+                }
+            });
+        });
     }
 
-    async getMuteRole(client: Bot, guildId: string) { 
-        return await this.MuteRole.findOne({ where: { gid: guildId}});
+    //endregion
+
+    //region Guild
+    private async getGuilds(): Promise<Model<any, any>[]> {
+        return await this.Guild.findAll();
     }
+
+    // async getGuildUsers(client: Bot, guildId: string): Promise<Model<any, any>[]> {
+    //     return await this.User.findAll({where: {gid: guildId}});
+    // } TODO()
+
+    async getGuild(guildId: string): Promise<Model<any, any>> {
+        return await this.Guild.findOne({where: {gid: guildId}});
+    }
+
+    async addGuild(guild: Guild): Promise<void> {
+        await this.Guild.create({
+            gid: guild.gid,
+            logs: guild.logs
+        });
+    }
+
+    async updateGuild(guild: Guild): Promise<void> {
+        await this.Guild.update({
+                logs: guild.logs
+            },
+            {
+                where: {
+                    gid: guild.gid
+                }
+            });
+    }
+
+    async loadGuilds(client: Bot): Promise<void> {
+        let guilds = await this.getGuilds();
+        guilds.forEach(g => {
+            client.guild.set(g.get('gid').toString(), new Guild(g.get('gid').toString()));
+        });
+    }
+
+    saveGuilds(client: Bot): void {
+        client.guild.forEach(async (g) => {
+            if (!await this.getGuild(g.gid)) // TODO()
+                await this.addGuild(g);
+            else {
+                await  this.updateGuild(g);
+            }
+        });
+    }
+
+    //endregion
+
+    //region MuteRole
+    async getMuteRole(client: Bot, guildId: string) {
+        return await this.MuteRole.findOne({where: {gid: guildId}});
+    }
+
+    //endregion
 
 }
