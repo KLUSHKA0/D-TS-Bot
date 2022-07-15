@@ -3,7 +3,7 @@ import {Collection} from "discord.js";
 
 export class Guild {
     public gid: string;
-    public accounts: Collection<string, Account>;
+    public accounts: Collection<string, Account> = new Collection();
     public logs: boolean = false;
 
 
