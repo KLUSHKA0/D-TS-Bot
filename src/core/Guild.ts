@@ -7,15 +7,20 @@ export class Guild {
     public logs: boolean = false;
 
 
-    constructor(gid: string) {
+    constructor(gid: string, logs?: boolean) {
         this.gid = gid;
+        if (logs) this.logs = logs;
     }
 
     getAccount(userId: string): Account {
         return this.accounts.get(userId);
     }
 
-    addAccount(userId: string): void {
+    addAccount(account: Account): void {
+        this.accounts.set(account.uid, new Account(account.uid, account.gid, account.xp, account.level, account.voice, account.lang));
+    }
+
+    newAccount(userId: string): void {
         this.accounts.set(userId, new Account(userId, this.gid));
     }
 

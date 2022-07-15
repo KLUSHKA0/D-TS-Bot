@@ -1,12 +1,22 @@
 import {Client, Collection, Intents} from "discord.js";
 import {access, constants, writeFile} from 'fs';
-import {Account, Command, commandHandler, createGroups, Event, eventHandler, Group, Guild} from "../core";
-import {path_config, path_db, path_env} from "../core/Constants";
+import {
+    Account,
+    Command,
+    commandHandler,
+    createGroups,
+    Event,
+    eventHandler,
+    Group,
+    Guild,
+    path_config,
+    path_db,
+    path_env
+} from "../core";
 import {Logger} from "../core/Logger";
 import {Config} from "../interfaces";
 import ConfigJson from '../config.json';
 import {Database} from "../db/Database";
-// import {Cd} from "../core/Account";
 
 require('dotenv').config()
 
@@ -35,9 +45,6 @@ class Bot extends Client {
     aliases: Collection<string, Command> = new Collection();
     groups: Collection<string, Group> = new Collection();
 
-
-    accounts: Collection<string, Account> = new Collection();
-    // cd: Collection<string, Cd> = new Collection();
     guild: Collection<string, Guild> = new Collection();
 
 
@@ -105,6 +112,8 @@ class Bot extends Client {
         await commandHandler(this);
 
         await this.db.openDB(this);
+        await this.db.loadGuilds(this);
+        await this.db.loadUsers(this);
 
         await this.login(process.env.TOKEN);
     }

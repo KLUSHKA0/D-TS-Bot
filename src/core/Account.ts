@@ -23,10 +23,8 @@ export class Account {
         const level = this.level;
         if (level * (100 + level) <= xp) this.levelUp();
         else this.xp += 5;
-        this.changeCd()
-        // client.cd.set(this.uid, new Cd(this.uid, this.gid));
+        this.changeCd();
         setTimeout(() => {
-            // client.cd.delete(this.uid);
             this.changeCd();
         }, 30000);
     }
@@ -38,14 +36,8 @@ export class Account {
     changeCd(): void {
         this.cd = !this.cd;
     }
-}
 
-// export class Cd {
-//     public id: string;
-//     public guild: string;
-//
-//     constructor(id: string, guild: string) {
-//         this.id = id;
-//         this.guild = guild;
-//     }
-// }
+    toString(): string {
+        return `xp: ${this.xp}, level: ${this.level}, voice: ${this.voice}, lang: ${this.lang}`
+    }
+}
