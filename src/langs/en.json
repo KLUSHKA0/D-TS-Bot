@@ -1,0 +1,47 @@
+{
+    "you_not_perm": "You don't have permissions for use `%s` command.",
+    "bot_not_perm": "The bot does not have permission to use the `%s` command",
+    "help": {
+        "title": "Available commands in %s",
+        "title_all": "All commands",
+        "group": "Group",
+        "aliases": "Aliases",
+        "description": "Description",
+        "usage": "Usage"
+    },
+    "lang": {
+        "info": "**Available languages:**\n 1) en\n 2) ru",
+        "success_update": "Language successfully changed to `%s`",
+        "no_lang": "This language is not listed."
+    },
+    "leaders": {
+        "title": "LEADERBOARD",
+        "you": "You"
+    },
+    "user": {
+        "basic_info": "**_Basic information_**\n",
+        "name": "**Name:** %s %s\n",
+        "status": "**Status:** %s\n",
+        "status_info": {
+            "online": "online",
+            "idle": "idle",
+            "dnd": "dnd",
+            "offline": "offline"
+        },
+        "user_status": "**User status:** %s\n",
+        "joined_server": "**Joined a server:** %s\n\n",
+
+        "additional_info": "**_Additional information_**\n",
+        "play_in": "**Play in:** %s\n",
+        "level": "**Level:** %s\n",
+        "xp": "**Xp:** %s\n",
+        "time_voice_channel": "**Time in voice channel:** %s\n",
+        "language": "**Language:** %s"
+    },
+    "prune": {
+        "nan_number": "Please enter a valid number.",
+        "number_large": "Enter a number less than 100.",
+        "number_litle": "Enter a number greater than 1.",
+        "message_delete": "Deleted %s/%s messages."
+    }
+}
