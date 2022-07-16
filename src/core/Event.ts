@@ -15,13 +15,15 @@ export interface Event {
 export async function eventHandler(client: Bot): Promise<void> {
     client.logger.info("Load events...")
     const eventPath = path.join(__dirname, "..", "events");
-    await readdirSync(eventPath).forEach(async (file) => {
-        let event: Event = await require(`${eventPath}/${file}`).event;
+    await readdirSync(eventPath).forEach((file) => {
+        let event: Event = require(`${eventPath}/${file}`).event;
         if (event) {
             client.events.set(event.name, event);
             client.on(event.name, event.run.bind(null, client));
-            if (client.config.debug) client.logger.debug(`added \`${event.name}\` event`);
-        } else client.logger.error('No File', `Unable to load event from file \`${file}\` at path ${path.join(eventPath, file)}`);
+            if (client.config.debug)
+                client.logger.debug(`added \`${event.name}\` event`);
+        } else
+            client.logger.error('No File', `Unable to load event from file \`${file}\` at path ${path.join(eventPath, file)}`);
     });
     client.logger.info("The events are loaded.")
 }

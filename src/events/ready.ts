@@ -11,6 +11,6 @@ export const event: Event = {
         setInterval(() => {
             client.db.saveGuilds(client);
             client.db.saveUsers(client);
-        }, 10000);
+        }, 1000 * 60 * 60);
     }
 }
