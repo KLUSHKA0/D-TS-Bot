@@ -51,8 +51,31 @@ export async function commandHandler(client: Bot): Promise<void> {
     client.logger.info(`The commands are loaded.`);
 }
 
-export function commandUpdates(client: Bot): void {
+export async function commandUpdates(client: Bot): Promise<void> {
+    const CommandPath = path.join(__dirname, "..", "commands");
+    await readdirSync(CommandPath).forEach((dir) => {
+        const commands = readdirSync(`${CommandPath}/${dir}`).filter((file) => file.endsWith('.ts'));
+        for (const file of commands) {
 
+            let link = `${CommandPath}/${dir}/${file}`
+            delete require.cache[link];
+
+            let command: Command = require(`${CommandPath}/${dir}/${file}`).command;
+            if (command) {
+                client.commands.set(command.name, command);
+                if (client.config.debug) client.logger.debug(`add \`${command.name}\` command`);
+
+                if (command.aliases) {
+                    if (command!!.aliases.length > 0) {
+                        command!!.aliases.forEach((alias) => {
+                            client.aliases.set(alias, command);
+                            if (client.config.debug) client.logger.debug(`added \`${alias}\` alias for \`${command.name}\` command`);
+                        });
+                    }
+                } else { if (client.config.debug) client.logger.debug(`no aliases for command ${command.name}`) }
+            }
+        }
+    });
 }
 
 export interface Group {
