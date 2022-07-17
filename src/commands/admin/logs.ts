@@ -6,7 +6,6 @@ export const command: Command = {
     permissions: ['ADMINISTRATOR'],
     run: (client, msg, args) => {
         let guild = client.guild.get(msg.guildId);
-
         if (guild.logs)
             msg.channel.send({ content: 'Логи выключены'});
         else

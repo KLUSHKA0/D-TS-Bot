@@ -6,7 +6,7 @@ import {Command, stringF} from '../../core';
 export const command: Command = {
     name: 'help',
     group: 'member',
-    run: (client: Bot, msg: Message, args: string[], langs: any) => {
+    run: (client, msg, args, langs) => {
         const embed = new MessageEmbed();
         embed.setColor("#00FF7F");
         let showAll = args[0] == 'all';

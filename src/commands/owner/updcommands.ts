@@ -9,7 +9,7 @@ export const command: Command = {
     group: 'owner',
     ownerOnly: true,
 
-    run: async (client: Bot, msg: Message, args: string[], langs: any) => {
+    run: async (client, msg, args, langs) => {
 
         client.commands.clear();
         client.aliases.clear();

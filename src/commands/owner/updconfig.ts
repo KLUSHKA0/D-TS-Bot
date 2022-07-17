@@ -10,7 +10,7 @@ export const command: Command = {
     group: 'owner',
     ownerOnly: true,
 
-    run: async (client: Bot, msg: Message, args: string[]) => {
+    run: async (client, msg, args) => {
         const json_path = path.join(__dirname, '..', '..', "config.json");
         delete require.cache[json_path];
         client.config = require(json_path);

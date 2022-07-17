@@ -8,7 +8,7 @@ export const command: Command = {
     group: 'owner',
     ownerOnly: true,
 
-    run: (client: Bot, msg: Message, args: string[]) => {
+    run: (client, msg, args) => {
         client.db.saveGuilds(client);
         client.db.saveUsers(client);
         client.db.saveMuteRoles(client);

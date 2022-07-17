@@ -8,7 +8,7 @@ export const command: Command = {
     name: 'lang',
     group: 'member',
 
-    run: (client: Bot, msg: Message, args: string[], langs: any) => {
+    run: (client, msg, args, langs) => {
         let lang = {
             "ru": "ru",
             "en": "en"

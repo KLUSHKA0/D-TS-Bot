@@ -8,7 +8,7 @@ export const command: Command = {
     group: 'member',
     aliases: ['ld'],
 
-    run: (client: Bot, msg: Message, args: string[], langs) => {
+    run: (client, msg, args, langs) => {
         // client.logger.warn('Not handler this command');
         let embed = new MessageEmbed()
         .setColor("PURPLE")

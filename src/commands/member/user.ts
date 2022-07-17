@@ -8,7 +8,7 @@ export const command: Command = {
     group: 'member',
     aliases: ['userinfo'],
 
-    run: async (client: Bot, msg: Message, args: string[], langs: any) => {
+    run: async (client, msg, args, langs) => {
         let member = msg.mentions.members.first() || msg.member;
 
         let acc = client.guild.get(msg.guildId).getAccount(member.user.id);
