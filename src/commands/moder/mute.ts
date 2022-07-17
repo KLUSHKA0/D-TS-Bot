@@ -5,6 +5,8 @@ import {MessageEmbed} from "discord.js";
 export const command: Command = {
     name: 'mute',
     group: 'moder',
+    permissions: ['MANAGE_ROLES'],
+
     run: async (client, msg, args) => {
         let guild = client.guild.get(msg.guildId);
 

@@ -4,6 +4,7 @@ import {Command} from "../../core";
 export const command: Command = {
     name: 'unmute',
     group: 'moder',
+    permissions: ['MANAGE_ROLES'],
 
     run: (client, msg, args, langs) => {
         let member = msg.mentions.members.first();

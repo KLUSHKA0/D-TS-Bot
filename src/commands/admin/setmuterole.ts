@@ -5,6 +5,7 @@ import {muteRole} from "../../core/Guild";
 export const command: Command = {
     name: 'setmuterole',
     group: 'moder',
+    permissions: ['ADMINISTRATOR'],
 
     run: (client, msg, args, langs) => {
         const role = msg.mentions.roles.first()

@@ -105,6 +105,7 @@ class Bot extends Client {
         await createGroups(this, [
             {name: 'member', displayName: 'Member commands'},
             {name: 'moder', displayName: 'Moderator commands'},
+            {name: 'admin', displayName: 'Admin commands'},
             {name: 'owner', displayName: 'Owner bot commands'}
         ]);
 

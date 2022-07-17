@@ -7,6 +7,7 @@ export const command: Command = {
     name: 'prune',
     group: 'moder',
     permissions: ['MANAGE_MESSAGES'],
+
     run: async (client: Bot, msg: Message, args: string[], langs: any) => {
         var count: number = Number(args[0])
         var embed = new MessageEmbed().setColor("RED");
