@@ -15,8 +15,8 @@ export const event: Event = {
             msg.system
         ) return;
 
-        if (!client.guild.get(msg.guild.id)) client.guild.set(msg.guild.id, new Guild(msg.guild.id))
-        const guild = client.guild.get(msg.guild.id)
+        if (!client.guild.get(msg.guildId)) client.guild.set(msg.guildId, new Guild(msg.guildId))
+        const guild = client.guild.get(msg.guildId)
 
         if (!guild.getAccount(msg.member.id))
             guild.newAccount(msg.member.id);
@@ -39,7 +39,7 @@ export const event: Event = {
 
         if (client.config.debug) client.logger.debug(`Execute command (${command.name}).`);
 
-        let lang = require(`../langs/${client.guild.get(msg.guild.id).getAccount(msg.member.id).lang}.json`);
+        let lang = require(`../langs/${client.guild.get(msg.guildId).getAccount(msg.member.id).lang}.json`);
 
         if (command.permissions ? msg.member.permissions.has(command.permissions) : (command.ownerOnly && msg.member.id == client.config.ownerID
                 || !command.ownerOnly)

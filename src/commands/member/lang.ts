@@ -19,7 +19,7 @@ export const command: Command = {
             embed.setDescription(stringF(langs['info']));
         } else {
             if (lang[args[0]]) {
-                client.guild.get(msg.guild.id).getAccount(msg.member.id).lang = args[0];
+                client.guild.get(msg.guildId).getAccount(msg.member.id).lang = args[0];
                 embed.setDescription(stringF(langs['success_update'], args[0]));
             } else embed.setDescription(`${stringF(langs['no_lang'])}\n${stringF(langs['info'])}`);
         }

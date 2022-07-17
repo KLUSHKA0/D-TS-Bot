@@ -11,7 +11,7 @@ export const command: Command = {
     run: async (client: Bot, msg: Message, args: string[], langs: any) => {
         let member = msg.mentions.members.first() || msg.member;
 
-        let acc = client.guild.get(msg.guild.id).getAccount(member.user.id);
+        let acc = client.guild.get(msg.guildId).getAccount(member.user.id);
         let data = [];
         data.push(
             stringF(langs['basic_info']),

@@ -21,7 +21,7 @@ export const command: Command = {
                 msg.delete()
             }, 10000)
         })
-        client.logger.info("Commands update.")
+        client.logger.info("Commands updated.")
 
 
     }
