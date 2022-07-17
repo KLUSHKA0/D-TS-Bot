@@ -41,7 +41,7 @@
     "prune": {
         "nan_number": "Please enter a valid number.",
         "number_large": "Enter a number less than 100.",
-        "number_litle": "Enter a number greater than 1.",
+        "number_title": "Enter a number greater than 1.",
         "message_delete": "Deleted %s/%s messages."
     }
 }

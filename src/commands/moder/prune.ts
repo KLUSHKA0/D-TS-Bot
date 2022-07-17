@@ -9,12 +9,12 @@ export const command: Command = {
     permissions: ['MANAGE_MESSAGES'],
 
     run: async (client: Bot, msg: Message, args: string[], langs: any) => {
-        var count: number = Number(args[0])
-        var embed = new MessageEmbed().setColor("RED");
+        let count: number = Number(args[0])
+        let embed = new MessageEmbed().setColor("RED");
 
         if (isNaN(count)) { embed.setDescription(stringF(langs['nan_number'])); return msg.channel.send({ embeds: [embed] }) };
         if (count > 100) { embed.setDescription(stringF(langs['number_large'])); return msg.channel.send({ embeds: [embed] }) };
-        if (count < 1) { embed.setDescription(stringF(langs['number_litle'])); return msg.channel.send({ embeds: [embed] }) };
+        if (count < 1) { embed.setDescription(stringF(langs['number_title'])); return msg.channel.send({ embeds: [embed] }) };
 
         if (msg.channel.type == 'DM') return;
         await msg.channel.bulkDelete(++count)
