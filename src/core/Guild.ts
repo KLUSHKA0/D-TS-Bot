@@ -5,11 +5,16 @@ export class Guild {
     public gid: string;
     public accounts: Collection<string, Account> = new Collection();
     public logs: boolean = false;
+    public muteRole: muteRole;
 
 
     constructor(gid: string, logs?: boolean) {
         this.gid = gid;
         if (logs) this.logs = logs;
+    }
+
+    userCount(): number {
+        return this.accounts.size
     }
 
     getAccount(userId: string): Account {
@@ -28,5 +33,14 @@ export class Guild {
         this.accounts.delete(userId);
     }
 
+    setMuteRole(muteRole: muteRole): void {
+        this.muteRole = muteRole
+    }
+}
 
+export interface muteRole {
+    gid: string;
+    rid: string;
+    rname: string;
+    rcolor: string;
 }

@@ -11,6 +11,7 @@ export const command: Command = {
     run: (client: Bot, msg: Message, args: string[]) => {
         client.db.saveGuilds(client);
         client.db.saveUsers(client);
+        client.db.saveMuteRoles(client);
         msg.channel.send({content: `Saved.`}).then(m => setTimeout(() => {
             m.delete();
             msg.delete();

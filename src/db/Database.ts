@@ -1,6 +1,7 @@
 import {DataTypes, Model, ModelStatic, Sequelize} from 'sequelize';
 import Bot from '../client';
 import {Account, Guild} from "../core";
+import {muteRole} from "../core/Guild";
 
 export class Database {
     private db: Sequelize;
@@ -209,7 +210,8 @@ export class Database {
     async loadGuilds(client: Bot): Promise<void> {
         let guilds = await this.getGuilds();
         guilds.forEach(g => {
-            client.guild.set(g.get('gid').toString(), new Guild(g.get('gid').toString()));
+            let guild = g.get() as Guild;
+            client.guild.set(guild.gid, new Guild(guild.gid, guild.logs));
         });
     }
 
@@ -226,8 +228,53 @@ export class Database {
     //endregion
 
     //region MuteRole
-    async getMuteRole(client: Bot, guildId: string) {
+    async getMuteRole(guildId: string) {
         return await this.MuteRole.findOne({where: {gid: guildId}});
+    }
+
+    async  getMuteRoles(client: Bot): Promise<Model<any, any>[]> {
+        return await this.MuteRole.findAll();
+    }
+
+    async loadMuteRoles(client: Bot): Promise<void> {
+        let muteRoles = await this.getMuteRoles(client);
+        muteRoles.forEach(m => {
+            let muteRole = m.get() as muteRole;
+            client.guild.get(muteRole.gid).setMuteRole(muteRole);
+        })
+    }
+
+    saveMuteRoles(client: Bot): void {
+        client.guild.forEach(async (g) => {
+            if (!await this.getMuteRole(g.gid)) // TODO()
+                await this.addMuteRole(g.muteRole);
+            else {
+                await  this.updateMuteRoles(g.muteRole);
+            }
+        });
+    }
+
+    async addMuteRole(muteRole: muteRole): Promise<void> {
+        await this.MuteRole.create({
+            gid: muteRole.gid,
+            rid: muteRole.rid,
+            rname: muteRole.rname,
+            rcolor: muteRole.rcolor
+        })
+    }
+
+
+    async updateMuteRoles(muteRole: muteRole): Promise<void> {
+        await this.MuteRole.update({
+                rid: muteRole.rid,
+                rname: muteRole.rname,
+                rcolor: muteRole.rcolor
+            },
+            {
+                where: {
+                    gid: muteRole.gid
+                }
+            });
     }
 
     //endregion

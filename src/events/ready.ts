@@ -11,6 +11,7 @@ export const event: Event = {
         setInterval(() => {
             client.db.saveGuilds(client);
             client.db.saveUsers(client);
+            client.db.saveMuteRoles(client);
         }, 1000 * 60 * 60);
     }
 }

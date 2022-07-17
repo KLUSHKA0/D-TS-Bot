@@ -114,6 +114,7 @@ class Bot extends Client {
         await this.db.openDB(this);
         await this.db.loadGuilds(this);
         await this.db.loadUsers(this);
+        await this.db.loadMuteRoles(this);
 
         await this.login(process.env.TOKEN);
     }
