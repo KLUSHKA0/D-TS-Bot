@@ -1,0 +1,7 @@
+{
+	"prefix": "your command prefix",
+	"debug": "true or false (on/off debug in console)",
+	"initSite": "true or false (on/off init site)",
+	"ownerID": "your discord id",
+  "port": 3000
+}
